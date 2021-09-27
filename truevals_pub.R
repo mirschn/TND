@@ -1,0 +1,122 @@
+##Scenario 1 
+
+#true conditional RR for hospitalization due to COVID
+orvect<-rep(NA,50)
+for (j in 1:50){
+  datfull<-datagen(popsize=1.5*10^6,return_full=T)
+  Qmod<-glm(I(Infec_COVID*W*H)~V+C,data=datfull,family=binomial)
+  orvect[j]<-exp(Qmod$coef[2])
+}
+mean(orvect,na.rm=T) #0.04
+median(orvect) #
+hist(orvect,nclass=20)
+
+#true marginal RR
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T)
+  datfull0<-datagen(cfV0=T,return_full=T)
+  orvect2[j]<-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID)
+}
+mean(orvect2) #0.04
+hist(orvect2)
+
+#true marginal RR for Infec_COVID
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T)
+  datfull0<-datagen(cfV0=T,return_full=T)
+  orvect2[j]<-mean(datfull1$Infec_COVID)/mean(datfull0$Infec_COVID)
+}
+mean(orvect2) #0.16
+hist(orvect2)
+
+#true marginal RR for Infec_COVID * W (severe COVID disease)
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T)
+  datfull0<-datagen(cfV0=T,return_full=T)
+  orvect2[j]<-mean(datfull1$W*datfull1$Infec_COVID)/mean(datfull0$W*datfull0$Infec_COVID)
+}
+mean(orvect2) #0.04
+hist(orvect2)
+
+
+
+##Scenario 2 
+
+#true conditional RR
+orvect<-rep(NA,50)
+for (j in 1:50){
+  datfull<-datagen(popsize=1.5*10^6,return_full=T,em=1)
+  Qmod<-glm(I(Infec_COVID*W*H)~V+C,data=datfull,family=binomial)
+  orvect[j]<-exp(Qmod$coef[2]) 
+}
+mean(orvect,na.rm=T) #0.23
+median(orvect) #
+hist(orvect,nclass=20)
+
+#true marginal RR
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T,em=1)
+  datfull0<-datagen(cfV0=T,return_full=T,em=1)
+  orvect2[j]<-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID)
+}
+mean(orvect2) #0.25
+hist(orvect2)
+
+#true marginal RR for Infec_COVID
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T,em=1)
+  datfull0<-datagen(cfV0=T,return_full=T,em=1)
+  orvect2[j]<-mean(datfull1$Infec_COVID)/mean(datfull0$Infec_COVID)
+}
+mean(orvect2) #0.56
+hist(orvect2)
+
+#true marginal RR for Infec_COVID * W
+orvect2<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T,em=1)
+  datfull0<-datagen(cfV0=T,return_full=T,em=1)
+  orvect2[j]<-mean(datfull1$W*datfull1$Infec_COVID)/mean(datfull0$W*datfull0$Infec_COVID)
+}
+mean(orvect2) #0.23
+hist(orvect2)
+
+
+##Scenario 3
+
+#direct effect of vaccination, holding f_m fixed
+
+datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.75)
+datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.75)
+mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.15
+
+datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.5)
+datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.5)
+mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.24
+
+datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.25)
+datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.25)
+mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.29
+
+#true conditional RR 
+#true mRR for infection
+rrvect<-rep(NA,50)
+mrrvect<-rep(NA,50)
+for (j in 1:50){
+  datfull<-datagen_int(popsize=1.5*10^6,return_full=T)
+  Qmod<-glm(I(Infec_COVID)~V+C+vaxpos,data=datfull,family=binomial(link="logit"))#rare outcome, so same as rr
+  rrvect[j]<-exp(Qmod$coef[2]) #0.52 #1-0.52=0.48 
+  Q1<-predict(Qmod,newdata=as.data.frame(cbind(C=C,V=1)),type="response")
+  Q0<-predict(Qmod,newdata=as.data.frame(cbind(C=C,V=0)),type="response")
+  mrrvect[j]<-mean(Q1)/mean(Q0) #0.15# 1-0.15=0.85
+}
+mean(rrvect,na.rm=T) #0.142849
+median(rrvect) #0.1416554
+mean(mrrvect,na.rm=T) #0.1532558
+median(mrrvect) #0.1519916
+hist(mrrvect,nclass=10) #looks fine for both
