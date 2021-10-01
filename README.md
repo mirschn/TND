@@ -25,6 +25,6 @@ Data-generation function for the third scenario, with interference.
 ## truevals_pub
 Demonstrates how to use the previous two functions to obtain the true values of the various parameters of interest described in the paper (i.e. the conditional risk ratio, the marginal risk ratio, and the direct effects under interference)
 
-## simstudy_all_Aug2021vs_pub ; simstudy_int_Aug2021_pub
+## simstudy_all_Aug2021v2_pub ; simstudy_int_Aug2021_pub
 Files that run the simulation study. The first file has the scenarios without interference; the second file has the scenario with partial interference.
 
