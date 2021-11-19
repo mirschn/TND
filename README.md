@@ -14,7 +14,7 @@ No interference.
 Partial interference: patient recruited from 10 blocks. The % infected in the block acts as an effect modifier for the vaccine in the model for infection with SARS-CoV-2.
 No other effect modification.
 
-There are 5 files:
+There are 6 files:
 
 ## datagenv2_pub
 Data-generation function for the first and second scenarios, without interference.
