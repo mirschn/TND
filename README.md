@@ -26,5 +26,7 @@ Data-generation function for the third scenario, with interference.
 Demonstrates how to use the previous two functions to obtain the true values of the various parameters of interest described in the paper (i.e. the conditional risk ratio, the marginal risk ratio, and the direct effects under interference)
 
 ## simstudy_all_Aug2021v2_pub ; simstudy_int_Aug2021_pub
-Files that run the simulation study. The first file has the scenarios without interference; the second file has the scenario with partial interference.
+Files that run the simulation study. The first file has the scenarios without interference; the second file has the scenario with partial interference. The methods are logistic regression and inverse probability of treatment weighting where the propensity score is fit using 1) all subjects and 2) only control subjects.
 
+## simstudy_int_Nov2021_byblock
+Runs analyses on a single simulated data-set in order to demonstrate stratification by block under interference.
