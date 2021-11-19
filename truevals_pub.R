@@ -86,6 +86,45 @@ for (j in 1:50){
 mean(orvect2) #0.23
 hist(orvect2)
 
+## Scenatio 2 again -- subgroup effects
+
+#true marginal RR in subset where C in -inf, -0.674 (Q1)
+orvect1<-rep(NA,50)
+orvect2<-rep(NA,50)
+orvect3<-rep(NA,50)
+orvect4<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen(cfV1=T,return_full=T,em=1)
+  datfull0<-datagen(cfV0=T,return_full=T,em=1)
+  orvect1[j]<-mean(datfull1$H[datfull1$C<(-0.6745)]*datfull1$Infec_COVID[datfull1$C<(-0.6745)])/mean(datfull0$H[datfull0$C<(-0.6745)]*datfull0$Infec_COVID[datfull0$C<(-0.6745)])
+  orvect2[j]<-mean(datfull1$H[datfull1$C>=(-0.6745) & datfull1$C<(0)]*datfull1$Infec_COVID[datfull1$C>=(-0.6745) & datfull1$C<(0)])/mean(datfull0$H[datfull0$C>=(-0.6745) & datfull0$C<(0)]*datfull0$Infec_COVID[datfull0$C>=(-0.6745) & datfull0$C<(0)])
+  orvect3[j]<-mean(datfull1$H[datfull1$C>=(0) & datfull1$C<(0.6745)]*datfull1$Infec_COVID[datfull1$C>=(0) & datfull1$C<(0.6745)])/mean(datfull0$H[datfull0$C>=(0) & datfull0$C<(0.6745)]*datfull0$Infec_COVID[datfull0$C>=(0) & datfull0$C<(0.6745)])
+  orvect4[j]<-mean(datfull1$H[datfull1$C>=(0.6745)]*datfull1$Infec_COVID[datfull1$C>=(0.6745)])/mean(datfull0$H[datfull0$C>=(0.6745)]*datfull0$Infec_COVID[datfull0$C>=(0.6745)])
+  
+  }
+1-mean(orvect1)
+1-median(orvect1)# 
+hist(1-orvect1)
+
+#95th percentile of C is about 1.65
+1-mean(datfull1$H[datfull1$C>=(1.648105)]*datfull1$Infec_COVID[datfull1$C>=(1.648105)])/mean(datfull0$H[datfull0$C>=(1.648105)]*datfull0$Infec_COVID[datfull0$C>=(1.648105)])
+
+
+#true marginal RR in subset where C in -0.674, 0 (Q2)
+1-mean(orvect2)
+1-median(orvect2)# 
+hist(1-orvect2)
+
+#true marginal RR in subset where C in 0, 0.674 (Q3)
+1-mean(orvect3)
+1-median(orvect3)# 
+hist(1-orvect3)
+
+#true marginal RR in subset where C in 0.674+ (Q4)
+1-mean(orvect4)
+1-median(orvect4)# 
+hist(1-orvect4)
+
 
 ##Scenario 3
 
