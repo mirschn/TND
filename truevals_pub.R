@@ -91,17 +91,28 @@ hist(orvect2)
 
 #direct effect of vaccination, holding f_m fixed
 
-datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.75)
-datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.75)
-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.15
+mrrvect<-rep(NA,50)
+for (j in 1:50){
+  datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.77,ssize_m=2000000)
+  datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.77,ssize_m=2000000)
+  mrrvect[j]=1-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) 
+}
+hist(mrrvect)
+mean(mrrvect)
+median(mrrvect)
+#0.75 median=mean=0.86
+#0.5 median=mean=0.8
+#0.25 mean=median=0.76
+#0.37 mean=median=0.77
+#0.24 mean=median=0.756
+#0.32 mean=median=0.77
+#0.69 mean=median = 0.84
+#0.58 mean=median = 0.82
+#0.79 mean=median= 0.87
+#0.83 mean=median= 0.88
+#0.78 mean=median= 0.87
+#0.77 mean=median=0.87
 
-datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.5)
-datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.5)
-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.24
-
-datfull1<-datagen_int_cf(cfV1=T,f_m_val=0.25)
-datfull0<-datagen_int_cf(cfV0=T,f_m_val=0.25)
-mean(datfull1$H*datfull1$Infec_COVID)/mean(datfull0$H*datfull0$Infec_COVID) #0.29
 
 #true conditional RR 
 #true mRR for infection

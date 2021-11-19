@@ -86,10 +86,7 @@ datagen_int_cf<-function(seed=sample(1:1000000,size=1),ssize_m=1000000,OR_C=3,OR
   set.seed(seed)
   popsize=ssize_m
   #assign person 1 to 0 or 1. Assign the rest of their cluster according to Bern(f_m_val). But instead of repeating, just do it all at once since others don't have impact beyond f_m
-  #blocks are predefined
-  block<-c(rep(1,floor(popsize*0.05)),rep(2,floor(popsize*0.05)),rep(3,floor(popsize*0.05)),rep(4,floor(popsize*0.05)),rep(5,floor(popsize*0.10)),rep(6,floor(popsize*0.10)),rep(7,floor(popsize*0.10)),rep(8,floor(popsize*0.10)),rep(9,floor(popsize*0.20)),rep(10,floor(popsize*0.20)))
-  vaxpos.b<-abs(rnorm(10)) # Needs to affect V and thus f_m
-  vaxpos<-c(rep(vaxpos.b[1],floor(popsize*0.05)),rep(vaxpos.b[2],floor(popsize*0.05)),rep(vaxpos.b[3],floor(popsize*0.05)),rep(vaxpos.b[4],floor(popsize*0.05)),rep(vaxpos.b[5],floor(popsize*0.10)),rep(vaxpos.b[6],floor(popsize*0.10)),rep(vaxpos.b[7],floor(popsize*0.10)),rep(vaxpos.b[8],floor(popsize*0.10)),rep(vaxpos.b[9],floor(popsize*0.20)),rep(vaxpos.b[10],floor(popsize*0.20)))
+  vaxpos<-abs(rnorm(popsize)) # Needs to affect V and thus f_m
   
   
   #generate data (WITH clustering for U2)
@@ -102,7 +99,8 @@ datagen_int_cf<-function(seed=sample(1:1000000,size=1),ssize_m=1000000,OR_C=3,OR
   if(cfV0==T){V=rep(0,ssize_m)}; if(cfV1==T){V=rep(1,ssize_m)}
   f_m=f_m_val #between 0 and 1
   
-  #Infection (with something) has some common risk factors U1 and C
+  #Infection (with something) has some common risk factors X and C
+  #OR_I is virus interference. But also need to add in intercept to increase prevalence
   Infec<-rbinom(prob=plogis(0.2+0.5*C-5+0.5*U1),size=1,n=popsize) #current prevalence around 0.007
   
   #Infected with COVID
