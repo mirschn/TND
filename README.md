@@ -1,7 +1,7 @@
 # TND
 Test-negative design simulation study for vaccine effectiveness
 
-Simulation study for the paper "Estimands and estimation of COVID-19 vaccine effectiveness under the test-negative design: connections to causal inference" (available soon).
+Simulation study for the paper "Estimands and estimation of COVID-19 vaccine effectiveness under the test-negative design: connections to causal inference" by Mireille Schnitzer https://pubmed.ncbi.nlm.nih.gov/35239518/?utm_source=gquery.
 
 ## Scenario 1
 No effect modification, no interference
